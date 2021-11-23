@@ -1,61 +1,51 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import * as Sharing from 'expo-sharing';
+import { Button, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+function KeypadButton(props) {
+  const { onPress, title } = props;
+  return (
+    <Pressable style={styles.button} onPress={onPress}>
+      <Text style={styles.buttonText}>{title}</Text>
+    </Pressable>
+  );
+}
 
 export default function App() {
-  const [selectedImage, setSelectedImage] = React.useState(null);
-
-  let openImagePickerAsync = async () => {
-    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      alert("Permission to acecss camera roll is required");
-      return;
-    }
-
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    
-    if (pickerResult.cancelled == true) {
-      return;
-    }
-
-    setSelectedImage({ localUri: pickerResult.uri });
-  }
-
-  let openShareDialogAsync = async () => {
-    if (!(await Sharing.isAvailableAsync())) {
-      alert(`Uh oh, sharing isn't available on your platform`);
-      return;
-    }
-
-    await Sharing.shareAsync(selectedImage.localUri);
-  }
-
-  if (selectedImage !== null) {
-    return (
-      <View style={styles.container}>
-        <Image
-          source={{ uri: selectedImage.localUri }}
-          style = {styles.thumbnail}
-        />
-        <TouchableOpacity onPress={openShareDialogAsync} style = {styles.button}>
-          <Text style = {styles.buttonText}>Share this photo</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
+  
 
   return (
     <View style={styles.container}>
-      <Image source={{ uri: "https://i.imgur.com/TkIrScD.png" }} style={styles.logo} />
-      <Text style={styles.instructions}>Click the button below!</Text>
-      <StatusBar style="auto" />
+      <View style={styles.screen}>
+        <Text style = {styles.screenText}>0</Text>
+      </View>
+      
+      <View style={styles.keypad}>
+        <View style={styles.keypadRow}>
+          <KeypadButton title="7"></KeypadButton>
+          <KeypadButton title="8"></KeypadButton>
+          <KeypadButton title="9"></KeypadButton>
+        </View>
 
-      <TouchableOpacity onPress={openImagePickerAsync} style = {styles.button}>
-        <Text style = {styles.buttonText}>Pick a photo</Text>
-      </TouchableOpacity>
+        <View style={styles.keypadRow}>
+          <KeypadButton title="4"></KeypadButton>
+          <KeypadButton title="5"></KeypadButton>
+          <KeypadButton title="6"></KeypadButton>
+        </View>
+
+        <View style={styles.keypadRow}>
+          <KeypadButton title="1"></KeypadButton>
+          <KeypadButton title="2"></KeypadButton>
+          <KeypadButton title="3"></KeypadButton>
+        </View>
+
+        <View style={styles.keypadRow}>
+          <KeypadButton title="."></KeypadButton>
+          <KeypadButton title="0"></KeypadButton>
+          <KeypadButton title="C"></KeypadButton>
+        </View>
+
+      </View>
     </View>
   );
 }
@@ -63,32 +53,51 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    width: "100%",
+    height: "100%",
+    alignSelf: 'center',
+    backgroundColor: '#DDD',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 180,
+    paddingHorizontal: 120,
   },
-  logo: {
-    width: 305,
-    height: 159,
-    marginBottom: 10,
+  screen: {
+    backgroundColor: "#555",
+    borderRadius: 4,
+    width: 320,
+    height: 90,
+    padding: 5,
+    margin: 5,
   },
-  instructions: {
-    color: '#888',
-    fontSize: 18,
-    marginHorizontal: 15,
+  screenText: {
+    textAlign: 'right',
+    color: '#FFF',
+    lineHeight: 90,
+    fontSize: 60,
   },
   button: {
-    backgroundColor: "blue",
-    padding: 20,
-    borderRadius: 5,
+    borderColor: 'black',
+    borderWidth: 1.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 100,
+    height: 100,
+    margin: 5,
+    borderRadius: 4,
+    backgroundColor: '#fcb26d',
   },
   buttonText: {
-    fontSize: 20,
-    color: '#fff',
+    fontSize: 60,
+    color: "#222",
   },
-  thumbnail: {
-    width: 300,
-    height: 300,
-    resizeMode: "contain",
-  }
+  keypad: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  keypadRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });
