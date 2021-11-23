@@ -12,7 +12,6 @@ function KeypadButton(props) {
 }
 
 export default function App() {
-  
 
   return (
     <View style={styles.container}>
@@ -52,23 +51,22 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    backgroundColor: '#DDD',
     width: "100%",
     height: "100%",
     alignSelf: 'center',
-    backgroundColor: '#DDD',
-    alignItems: 'center',
+    flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'center',
     paddingVertical: 180,
-    paddingHorizontal: 120,
+    paddingHorizontal: 50,
   },
   screen: {
     backgroundColor: "#555",
     borderRadius: 4,
-    width: 320,
-    height: 90,
-    padding: 5,
-    margin: 5,
+    alignSelf: 'stretch',
+    marginVertical: 5,
+    paddingRight: 10,
   },
   screenText: {
     textAlign: 'right',
@@ -82,7 +80,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 100,
-    height: 100,
     margin: 5,
     borderRadius: 4,
     backgroundColor: '#fcb26d',
@@ -98,6 +95,5 @@ const styles = StyleSheet.create({
   keypadRow: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
 });
