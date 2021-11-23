@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 180,
+    paddingVertical: 220,
     paddingHorizontal: 50,
   },
   screen: {
@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     color: "#222",
   },
   keypad: {
-    flex: 1,
     flexDirection: 'column',
   },
   keypadRow: {
