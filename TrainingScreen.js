@@ -6,10 +6,27 @@ import styles from './styles';
 import { Audio } from 'expo-av';
 
 function KeypadButton(props) {
-    const { onPress, onPressIn, title } = props;
-  
+    const { onPress, title } = props;
+    const [sound, setSound] = React.useState();
+
+    async function playClickSound() {
+        const { sound } = await Audio.Sound.createAsync(
+          require("./assets/clickshort.mp3")
+        );
+        setSound(sound);
+    
+        await sound.playAsync(); 
+    }
+
+    React.useEffect(() => {
+        return sound 
+          ? () => {
+            sound.unloadAsync(); }
+          : undefined;
+    }, [sound]);
+
     return (
-      <TouchableOpacity style={styles.button} onPress={onPress} onPressIn={onPressIn}>
+      <TouchableOpacity style={styles.button} onPress={onPress} onPressIn={() => playClickSound()}>
         <Text style={styles.buttonText}>{title}</Text>
       </TouchableOpacity>
     );
@@ -19,15 +36,6 @@ function TrainingScreen() {
     const [text, setText] = useState(" ");
     const [sound, setSound] = React.useState();
     const pi = " 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067";
-  
-    async function playClickSound() {
-      const { sound } = await Audio.Sound.createAsync(
-        require("./assets/clickshort.mp3")
-      );
-      setSound(sound);
-  
-      await sound.playAsync(); 
-    }
   
     async function playIncorrectSound() {
       const { sound } = await Audio.Sound.createAsync(
@@ -107,29 +115,28 @@ function TrainingScreen() {
           </View>
           <View style={styles.keypad}>
             <View style={styles.keypadRow}>
-              <KeypadButton title="7" onPressIn={() => playClickSound()} onPress={() => handleInput("7")}></KeypadButton>
-              <KeypadButton title="8" onPressIn={() => playClickSound()} onPress={() => handleInput("8")}></KeypadButton>
-              <KeypadButton title="9" onPressIn={() => playClickSound()} onPress={() => handleInput("9")}></KeypadButton>
+              <KeypadButton title="7" onPress={() => handleInput("7")}></KeypadButton>
+              <KeypadButton title="8" onPress={() => handleInput("8")}></KeypadButton>
+              <KeypadButton title="9" onPress={() => handleInput("9")}></KeypadButton>
             </View>
   
             <View style={styles.keypadRow}>
-              <KeypadButton title="4" onPressIn={() => playClickSound()} onPress={() => handleInput("4")}></KeypadButton>
-              <KeypadButton title="5" onPressIn={() => playClickSound()} onPress={() => handleInput("5")}></KeypadButton>
-              <KeypadButton title="6" onPressIn={() => playClickSound()} onPress={() => handleInput("6")}></KeypadButton>
+              <KeypadButton title="4" onPress={() => handleInput("4")}></KeypadButton>
+              <KeypadButton title="5" onPress={() => handleInput("5")}></KeypadButton>
+              <KeypadButton title="6" onPress={() => handleInput("6")}></KeypadButton>
             </View>
   
             <View style={styles.keypadRow}>
-              <KeypadButton title="1" onPressIn={() => playClickSound()} onPress={() => handleInput("1")}></KeypadButton>
-              <KeypadButton title="2" onPressIn={() => playClickSound()} onPress={() => handleInput("2")}></KeypadButton>
-              <KeypadButton title="3" onPressIn={() => playClickSound()} onPress={() => handleInput("3")}></KeypadButton>
+              <KeypadButton title="1" onPress={() => handleInput("1")}></KeypadButton>
+              <KeypadButton title="2" onPress={() => handleInput("2")}></KeypadButton>
+              <KeypadButton title="3" onPress={() => handleInput("3")}></KeypadButton>
             </View>
   
             <View style={styles.keypadRow}>
-              <KeypadButton title="." onPressIn={() => playClickSound()} onPress={() => handleInput(".")}></KeypadButton>
-              <KeypadButton title="0" onPressIn={() => playClickSound()} onPress={() => handleInput("0")}></KeypadButton>
-              <KeypadButton title="C" onPressIn={() => playClickSound()} onPress={() => clearInput()}></KeypadButton>
+              <KeypadButton title="." onPress={() => handleInput(".")}></KeypadButton>
+              <KeypadButton title="0" onPress={() => handleInput("0")}></KeypadButton>
+              <KeypadButton title="C" onPress={() => clearInput()}></KeypadButton>
             </View>
-  
           </View>
         </View>
         <Toast />
